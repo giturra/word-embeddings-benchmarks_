@@ -17,29 +17,7 @@ from .utils import batched
 from web.embedding import Embedding
 
 class SimpleAnalogySolver(sklearn.base.BaseEstimator):
-    """
-    Answer analogy questions
-
-    Parameters
-    ----------
-    w : Embedding instance
-
-    method : {"add", "mul"}
-      Method to use when finding analogy answer, see "Improving Distributional Similarity
-      with Lessons Learned from Word Embeddings" O. Levy et al. 2014.
-
-    batch_size : int
-      Batch size to use while computing accuracy. This is because of extensive memory usage.
-
-    k: int
-      If not None will select k top most frequent words from embedding before doing analogy prediction
-      (this can offer significant speedups)
-
-    Note
-    ----
-    It is suggested to normalize and standardize embedding before passing it to SimpleAnalogySolver.
-    To speed up code consider installing OpenBLAS and setting OMP_NUM_THREADS.
-    """
+    """Answer analogy questions"""
 
     def __init__(self, w, method="add", batch_size=300, k=None):
         self.w = w
@@ -48,37 +26,27 @@ class SimpleAnalogySolver(sklearn.base.BaseEstimator):
         self.k = k
 
     def score(self, X, y):
-        """
-        Calculate accuracy on analogy questions dataset
+        """Calculate accuracy on analogy questions dataset
 
-        Parameters
-        ----------
-        X : array-like, shape (n_samples, 3)
-          Analogy questions.
+        Args:
+          X(array-like, shape (n_samples, 3)): Analogy questions.
+          y(array-like, shape (n_samples, )): Analogy answers.
 
-        y : array-like, shape (n_samples, )
-          Analogy answers.
+        Returns:
 
-        Returns
-        -------
-        acc : float
-          Accuracy
+        
         """
         return np.mean(y == self.predict(X))
 
     def predict(self, X):
-        """
-        Answer analogy questions
+        """Answer analogy questions
 
-        Parameters
-        ----------
-        X : array-like, shape (n_samples, 3)
-          Analogy questions.
+        Args:
+          X(array-like, shape (n_samples, 3)): Analogy questions.
 
-        Returns
-        -------
-        y_pred : array-like, shape (n_samples, )
-          Predicted words.
+        Returns:
+
+        
         """
         w = self.w.most_frequent(self.k) if self.k else self.w
         words = self.w.vocabulary.words

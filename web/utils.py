@@ -13,7 +13,16 @@ from six import string_types, text_type
 
 
 def any2utf8(text, errors='strict', encoding='utf8'):
-    """Convert a string (unicode or bytestring in `encoding`), to bytestring in utf8."""
+    """Convert a string (unicode or bytestring in `encoding`), to bytestring in utf8.
+
+    Args:
+      text: param errors:  (Default value = 'strict')
+      encoding: Default value = 'utf8')
+      errors:  (Default value = 'strict')
+
+    Returns:
+
+    """
     if isinstance(text, text_type):
         return text.encode('utf8')
     # do bytestring -> unicode -> utf8 full circle, to ensure valid utf8
@@ -34,20 +43,16 @@ _delchars_table = dict((ord(char), None) for char in _delchars)
 
 
 def standardize_string(s, clean_words=True, lower=True, language="english"):
-    """
-    Ensures common convention across code. Converts to utf-8 and removes non-alphanumeric characters
+    """Ensures common convention across code. Converts to utf-8 and removes non-alphanumeric characters
 
-    Parameters
-    ----------
-    language: only "english" is now supported. If "english" will remove non-alphanumeric characters
+    Args:
+      language(only "english" is now supported. If "english" will remove non-alphanumeric characters, optional): Default value = "english")
+      lower(if True will lower strńing., optional): Default value = True)
+      clean_words(if True will remove non alphanumeric characters (for instance '$', '#' or 'ł'), optional): Default value = True)
+      s: 
 
-    lower: if True will lower strńing.
+    Returns:
 
-    clean_words: if True will remove non alphanumeric characters (for instance '$', '#' or 'ł')
-
-    Returns
-    -------
-    string: processed string
     """
 
     assert isinstance(s, string_types)
@@ -64,6 +69,15 @@ def standardize_string(s, clean_words=True, lower=True, language="english"):
 
 
 def batched(iterable, size):
+    """
+
+    Args:
+      iterable: param size:
+      size: 
+
+    Returns:
+
+    """
     sourceiter = iter(iterable)
     while True:
         batchiter = islice(sourceiter, size)
@@ -74,7 +88,15 @@ def batched(iterable, size):
 
 
 def _open(file_, mode='r'):
-    """Open file object given filenames, open files or even archives."""
+    """Open file object given filenames, open files or even archives.
+
+    Args:
+      file_: param mode:  (Default value = 'r')
+      mode:  (Default value = 'r')
+
+    Returns:
+
+    """
     if isinstance(file_, string_types):
         _, ext = path.splitext(file_)
         if ext in {'.gz'}:
