@@ -15,21 +15,15 @@ from web.embedding import Embedding
 logger = logging.getLogger(__name__)
 
 def calculate_purity(y_true, y_pred):
-    """
-    Calculate purity for given true and predicted cluster labels.
+    """Calculate purity for given true and predicted cluster labels.
 
-    Parameters
-    ----------
-    y_true: array, shape: (n_samples, 1)
-      True cluster labels
+    Args:
+      y_true(array, shape: (n_samples, 1)): True cluster labels
+      y_pred(array, shape: (n_samples, 1)): Cluster assingment.
 
-    y_pred: array, shape: (n_samples, 1)
-      Cluster assingment.
+    Returns:
 
-    Returns
-    -------
-    purity: float
-      Calculated purity.
+    
     """
     assert len(y_true) == len(y_pred)
     true_clusters = np.zeros(shape=(len(set(y_true)), len(y_true)))
@@ -44,34 +38,21 @@ def calculate_purity(y_true, y_pred):
 
 
 def evaluate_categorization(w, X, y, method="all", seed=None):
-    """
-    Evaluate embeddings on categorization task.
+    """Evaluate embeddings on categorization task.
 
-    Parameters
-    ----------
-    w: Embedding or dict
-      Embedding to test.
+    Args:
+      w(Embedding or dict): Embedding to test.
+      X(vector, shape: (n_samples, )): Vector of words.
+      y(vector, shape: (n_samples, )): Vector of cluster assignments.
+      method(string, default: "all", optional): What method to use. Possible values are "agglomerative", "kmeans", "all.
+    If "agglomerative" is passed, method will fit AgglomerativeClustering (with very crude
+    hyperparameter tuning to avoid overfitting).
+    If "kmeans" is passed, method will fit KMeans.
+    In both cases number of clusters is preset to the correct value. (Default value = "all")
+      seed(int, default: None, optional): Seed passed to KMeans. (Default value = None)
 
-    X: vector, shape: (n_samples, )
-      Vector of words.
-
-    y: vector, shape: (n_samples, )
-      Vector of cluster assignments.
-
-    method: string, default: "all"
-      What method to use. Possible values are "agglomerative", "kmeans", "all.
-      If "agglomerative" is passed, method will fit AgglomerativeClustering (with very crude
-      hyperparameter tuning to avoid overfitting).
-      If "kmeans" is passed, method will fit KMeans.
-      In both cases number of clusters is preset to the correct value.
-
-    seed: int, default: None
-      Seed passed to KMeans.
-
-    Returns
-    -------
-    purity: float
-      Purity of the best obtained clustering.
+    Returns:
+      float: Purity of the best obtained clustering.
 
     Notes
     -----
@@ -116,19 +97,14 @@ def evaluate_categorization(w, X, y, method="all", seed=None):
 
 
 def evaluate_on_semeval_2012_2(w):
-    """
-    Simple method to score embedding using SimpleAnalogySolver
+    """Simple method to score embedding using SimpleAnalogySolver
 
-    Parameters
-    ----------
-    w : Embedding or dict
-      Embedding or dict instance.
+    Args:
+      w(Embedding or dict): Embedding or dict instance.
 
-    Returns
-    -------
-    result: pandas.DataFrame
-      Results with spearman correlation per broad category with special key "all" for summary
-      spearman correlation
+    Returns:
+
+    
     """
     if isinstance(w, dict):
         w = Embedding.from_dict(w)
@@ -163,40 +139,23 @@ def evaluate_on_semeval_2012_2(w):
 
 
 def evaluate_analogy(w, X, y, method="add", k=None, category=None, batch_size=100):
-    """
-    Simple method to score embedding using SimpleAnalogySolver
+    """Simple method to score embedding using SimpleAnalogySolver
 
-    Parameters
-    ----------
-    w : Embedding or dict
-      Embedding or dict instance.
+    Args:
+      w(Embedding or dict): Embedding or dict instance.
+      method({"add", "mul"}, optional): Method to use when finding analogy answer, see "Improving Distributional Similarity
+    with Lessons Learned from Word Embeddings" (Default value = "add")
+      X(array-like, shape (n_samples, 3)): Analogy questions.
+      y(array-like, shape (n_samples, )): Analogy answers.
+      k(int, default: None, optional): If not None will select k top most frequent words from embedding (Default value = None)
+      batch_size(int, default: 100, optional): Increase to increase memory consumption and decrease running time (Default value = 100)
+      category(list, default: None, optional): Category of each example, if passed function returns accuracy per category
+    in addition to the overall performance.
+    Analogy datasets have "category" field that can be supplied here. (Default value = None)
 
-    method : {"add", "mul"}
-      Method to use when finding analogy answer, see "Improving Distributional Similarity
-      with Lessons Learned from Word Embeddings"
+    Returns:
 
-    X : array-like, shape (n_samples, 3)
-      Analogy questions.
-
-    y : array-like, shape (n_samples, )
-      Analogy answers.
-
-    k : int, default: None
-      If not None will select k top most frequent words from embedding
-
-    batch_size : int, default: 100
-      Increase to increase memory consumption and decrease running time
-
-    category : list, default: None
-      Category of each example, if passed function returns accuracy per category
-      in addition to the overall performance.
-      Analogy datasets have "category" field that can be supplied here.
-
-    Returns
-    -------
-    result: dict
-      Results, where each key is for given category and special empty key "" stores
-      summarized accuracy across categories
+    
     """
     if isinstance(w, dict):
         w = Embedding.from_dict(w)
@@ -224,21 +183,16 @@ def evaluate_analogy(w, X, y, method="add", k=None, category=None, batch_size=10
 
 
 def evaluate_on_WordRep(w, max_pairs=1000, solver_kwargs={}):
-    """
-    Evaluate on WordRep dataset
+    """Evaluate on WordRep dataset
 
-    Parameters
-    ----------
-    w : Embedding or dict
-      Embedding or dict instance.
+    Args:
+      w(Embedding or dict): Embedding or dict instance.
+      max_pairs(int, default: 1000, optional): Each category will be constrained to maximum of max_pairs pairs
+    (which results in max_pair * (max_pairs - 1) examples) (Default value = 1000)
+      solver_kwargs(dict, default: {}, optional): Arguments passed to SimpleAnalogySolver. It is suggested to limit number of words
+    in the dictionary. (Default value = {})
 
-    max_pairs: int, default: 1000
-      Each category will be constrained to maximum of max_pairs pairs
-      (which results in max_pair * (max_pairs - 1) examples)
-
-    solver_kwargs: dict, default: {}
-      Arguments passed to SimpleAnalogySolver. It is suggested to limit number of words
-      in the dictionary.
+    Returns:
 
     References
     ----------
@@ -299,25 +253,17 @@ def evaluate_on_WordRep(w, max_pairs=1000, solver_kwargs={}):
 
 
 def evaluate_similarity(w, X, y):
-    """
-    Calculate Spearman correlation between cosine similarity of the model
+    """Calculate Spearman correlation between cosine similarity of the model
     and human rated similarity of word pairs
 
-    Parameters
-    ----------
-    w : Embedding or dict
-      Embedding or dict instance.
+    Args:
+      w(Embedding or dict): Embedding or dict instance.
+      X(array, shape: (n_samples, 2)): Word pairs
+      y(vector, shape: (n_samples,)): Human ratings
 
-    X: array, shape: (n_samples, 2)
-      Word pairs
+    Returns:
 
-    y: vector, shape: (n_samples,)
-      Human ratings
-
-    Returns
-    -------
-    cor: float
-      Spearman correlation
+    
     """
     if isinstance(w, dict):
         w = Embedding.from_dict(w)
@@ -340,18 +286,14 @@ def evaluate_similarity(w, X, y):
 
 
 def evaluate_on_all(w):
-    """
-    Evaluate Embedding on all fast-running benchmarks
+    """Evaluate Embedding on all fast-running benchmarks
 
-    Parameters
-    ----------
-    w: Embedding or dict
-      Embedding to evaluate.
+    Args:
+      w(Embedding or dict): Embedding to evaluate.
 
-    Returns
-    -------
-    results: pandas.DataFrame
-      DataFrame with results, one per column.
+    Returns:
+
+    
     """
     if isinstance(w, dict):
         w = Embedding.from_dict(w)

@@ -14,26 +14,24 @@ from .utils import _get_as_pd, _fetch_file
 
 
 def fetch_MTurk():
-    """
-    Fetch MTurk dataset for testing attributional similarity
+    """Fetch MTurk dataset for testing attributional similarity
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores,
 
     References
     ----------
     Radinsky, Kira et al., "A Word at a Time: Computing Word Relatedness Using Temporal Semantic Analysis", 2011
-
     Notes
     -----
     Human labeled examples of word semantic relatedness. The data pairs were generated using an algorithm as
     described in the paper by [K. Radinsky, E. Agichtein, E. Gabrilovich, S. Markovitch.].
     Each pair of words was evaluated by 10 people on a scale of 1-5.
-
+    
     Additionally scores were multiplied by factor of 2.
     """
     data = _get_as_pd('https://www.dropbox.com/s/f1v4ve495mmd9pw/EN-TRUK.txt?dl=1',
@@ -43,30 +41,25 @@ def fetch_MTurk():
 
 
 def fetch_MEN(which="all", form="natural"):
-    """
-    Fetch MEN dataset for testing similarity and relatedness
+    """Fetch MEN dataset for testing similarity and relatedness
 
-    Parameters
-    ----------
-    which : "all", "test" or "dev"
-    form : "lem" or "natural"
+    Args:
+      which("all", "test" or "dev", optional):  (Default value = "all")
+      form("lem" or "natural", optional):  (Default value = "natural")
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores
 
     References
     ----------
     Published at http://clic.cimec.unitn.it/~elia.bruni/MEN.html.
-
     Notes
     -----
     Scores for MEN are calculated differently than in WS353 or SimLex999.
     Furthermore scores where rescaled to 0 - 10 scale to match standard scaling.
-
+    
     The MEN Test Collection contains two sets of English word pairs (one for training and one for testing)
     together with human-assigned similarity judgments, obtained by crowdsourcing using Amazon Mechanical
     Turk via the CrowdFlower interface. The collection can be used to train and/or test computer algorithms
@@ -94,31 +87,22 @@ def fetch_MEN(which="all", form="natural"):
 
 
 def fetch_WS353(which="all"):
-    """
-    Fetch WS353 dataset for testing attributional and
+    """Fetch WS353 dataset for testing attributional and
     relatedness similarity
 
-    Parameters
-    ----------
-    which : 'all': for both relatedness and attributional similarity,
-            'relatedness': for relatedness similarity
-            'similarity': for attributional similarity
-            'set1': as divided by authors
-            'set2': as divided by authors
+    Args:
+      which('all': for both relatedness and attributional similarity,, optional): 'relatedness': for relatedness similarity
+    'similarity': for attributional similarity
+    'set1': as divided by authors
+    'set2': as divided by authors (Default value = "all")
+
+    Returns:
 
     References
     ----------
     Finkelstein, Gabrilovich, "Placing Search in Context: The Concept Revisited†", 2002
     Agirre, Eneko et al., "A Study on Similarity and Relatedness Using Distributional and WordNet-based Approaches",
     2009
-
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
-        'sd': vector of std of scores if available (for set1 and set2)
     """
     if which == "all":
         data = _get_as_pd('https://www.dropbox.com/s/eqal5qj97ajaycz/EN-WS353.txt?dl=1',
@@ -151,22 +135,20 @@ def fetch_WS353(which="all"):
 
 
 def fetch_RG65():
-    """
-    Fetch Rubenstein and Goodenough dataset for testing attributional and
+    """Fetch Rubenstein and Goodenough dataset for testing attributional and
     relatedness similarity
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
-        'sd': vector of std of scores if available (for set1 and set2)
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores,
+      'sd': vector of std of scores if available (for set1 and set2)
 
     References
     ----------
     Rubenstein, Goodenough, "Contextual correlates of synonymy", 1965
-
     Notes
     -----
     Scores were scaled by factor 10/4
@@ -179,21 +161,19 @@ def fetch_RG65():
 
 
 def fetch_RW():
-    """
-    Fetch Rare Words dataset for testing attributional similarity
+    """Fetch Rare Words dataset for testing attributional similarity
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
-        'sd': vector of std of scores
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores,
+      'sd': vector of std of scores
 
     References
     ----------
     Published at http://www-nlp.stanford.edu/~lmthang/morphoNLM/.
-
     Notes
     -----
     2034 word pairs that are relatively rare with human similarity scores. Rare word selection: our choices of
@@ -212,29 +192,24 @@ def fetch_RW():
 
 
 def fetch_multilingual_SimLex999(which="EN"):
-    """
-    Fetch Multilingual SimLex999 dataset for testing attributional similarity
+    """Fetch Multilingual SimLex999 dataset for testing attributional similarity
 
-    Parameters
-    -------
-    which : "EN", "RU", "IT" or "DE" for language
+    Args:
+      which("EN", "RU", "IT" or "DE" for language, optional):  (Default value = "EN")
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
-        'sd': vector of sd of scores,
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores,
+      'sd': vector of sd of scores,
 
     References
     ----------
     Published at http://technion.ac.il/~ira.leviant/MultilingualVSMdata.html.
-
     Notes
     -----
     Scores for EN are different than the original SimLex999 dataset.
-
+    
     Authors description:
     Multilingual SimLex999 resource consists of translations of the SimLex999 word similarity data set to
     three languages: German, Italian and Russian. Each of the translated datasets is scored by
@@ -270,24 +245,22 @@ def fetch_multilingual_SimLex999(which="EN"):
 
 
 def fetch_SimLex999():
-    """
-    Fetch SimLex999 dataset for testing attributional similarity
+    """Fetch SimLex999 dataset for testing attributional similarity
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
-        'sd': vector of sd of scores,
-        'conc': matrix with columns conc(w1), conc(w2) and concQ the from dataset
-        'POS': vector with POS tag
-        'assoc': matrix with columns denoting free association: Assoc(USF) and SimAssoc333
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores,
+      'sd': vector of sd of scores,
+      'conc': matrix with columns conc(w1), conc(w2) and concQ the from dataset
+      'POS': vector with POS tag
+      'assoc': matrix with columns denoting free association: Assoc(USF) and SimAssoc333
 
     References
     ----------
     Hill, Felix et al., "Simlex-999: Evaluating semantic models with (genuine) similarity estimation", 2014
-
     Notes
     -----
      SimLex-999 is a gold standard resource for the evaluation of models that learn the meaning of words and concepts.
@@ -312,21 +285,19 @@ def fetch_SimLex999():
 
 
 def fetch_TR9856():
-    """
-    Fetch TR9856 dataset for testing multi-word term relatedness
+    """Fetch TR9856 dataset for testing multi-word term relatedness
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of 2 words per column,
-        'y': vector with scores,
-        'topic': vector of topics providing context for each pair of terms
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of 2 words per column,
+      'y': vector with scores,
+      'topic': vector of topics providing context for each pair of terms
 
     References
     ----------
     Levy, Ran et al., "TR9856: A multi-word term relatedness benchmark", 2015.
-
     Notes
     -----
     """

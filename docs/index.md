@@ -1,3 +1,3 @@
 # Welcome to MkDocs
 
-::: web.analogy
+::: web.datasets.similarity

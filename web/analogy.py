@@ -29,12 +29,11 @@ class SimpleAnalogySolver(sklearn.base.BaseEstimator):
         """Calculate accuracy on analogy questions dataset
 
         Args:
-          X(array-like, shape (n_samples, 3)): Analogy questions.
-          y(array-like, shape (n_samples, )): Analogy answers.
+          X(array-like): Analogy questions.
+          y(array-like): Analogy answers.
 
         Returns:
 
-        
         """
         return np.mean(y == self.predict(X))
 
@@ -42,11 +41,10 @@ class SimpleAnalogySolver(sklearn.base.BaseEstimator):
         """Answer analogy questions
 
         Args:
-          X(array-like, shape (n_samples, 3)): Analogy questions.
+          X(array-like): Analogy questions.
 
         Returns:
 
-        
         """
         w = self.w.most_frequent(self.k) if self.k else self.w
         words = self.w.vocabulary.words

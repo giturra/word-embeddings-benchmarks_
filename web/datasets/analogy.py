@@ -17,29 +17,28 @@ from ..utils import standardize_string
 
 
 def fetch_wordrep(subsample=None, rng=None):
-    """
-    Fetch MSR WordRep dataset for testing both syntactic and semantic dataset
+    """Fetch MSR WordRep dataset for testing both syntactic and semantic dataset
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of word pairs
-        'y': vector of answers
-        'category': name of category
-        'category_high_level': name of high level category (semantic/syntactic)
+    Args:
+      subsample:  (Default value = None)
+      rng:  (Default value = None)
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of word pairs
+      'y': vector of answers
+      'category': name of category
+      'category_high_level': name of high level category (semantic/syntactic)
 
     References
     ----------
     Gao, Bin and Bian, Jiang and Liu, Tie-Yan,
     "Wordrep: A benchmark for research on learning word representations", 2014
-
-
+    
     Notes
     -----
     This dataset is too big to calculate and store all word analogy quadruples, this is
     why it returns word paris
-
     """
     path = _fetch_file(url="https://www.dropbox.com/sh/5k78h9gllvc44vt/AAALLQq-Bge605OIMlmGBbNJa?dl=1",
                        data_dir="analogy",
@@ -109,27 +108,24 @@ def fetch_wordrep(subsample=None, rng=None):
 
 
 def fetch_google_analogy():
-    """
-    Fetch Google dataset for testing both semantic and syntactic analogies.
+    """Fetch Google dataset for testing both semantic and syntactic analogies.
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of word questions
-        'y': vector of answers
-        'category': name of category
-        'category_high_level': name of high level category (semantic/syntactic)
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of word questions
+      'y': vector of answers
+      'category': name of category
+      'category_high_level': name of high level category (semantic/syntactic)
 
     References
     ----------
     Mikolov, Tomas and Sutskever, Ilya and Chen, Kai and Corrado, Greg S and Dean, Jeff,
     "Distributed representations of words and phrases and their compositionality", 2013
-
     Notes
     -----
     This dataset is a subset of WordRep dataset.
-
     """
 
     url = "https://www.dropbox.com/s/eujtyfb5zem1mim/EN-GOOGLE.txt?dl=1"
@@ -171,22 +167,20 @@ def fetch_google_analogy():
 
 
 def fetch_msr_analogy():
-    """
-    Fetch MSR dataset for testing performance on syntactic analogies
+    """Fetch MSR dataset for testing performance on syntactic analogies
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X': matrix of word questions
-        'y': vector of answers
-        'category': name of category
-        'category_high_level': name of high level category (noun/adjective/verb)
+    Args:
+
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X': matrix of word questions
+      'y': vector of answers
+      'category': name of category
+      'category_high_level': name of high level category (noun/adjective/verb)
 
     References
     ----------
     Originally published at http://research.microsoft.com/en-us/projects/rnn/.
-
     Notes
     -----
     Authors description: "more precisely, we tagged 267M words of newspaper text
@@ -233,38 +227,32 @@ def fetch_msr_analogy():
 
 # TODO: rewrite to a more standarized version
 def fetch_semeval_2012_2(which="all", which_scoring="golden"):
-    """
-    Fetch dataset used for SEMEVAL 2012 task 2 competition
+    """Fetch dataset used for SEMEVAL 2012 task 2 competition
 
-    Parameters
-    -------
-    which : "all", "train" or "test"
-    which_scoring: "golden" or "platinium" (see Notes)
+    Args:
+      which("all", "train" or "test", optional):  (Default value = "all")
+      which_scoring("golden" or "platinium" (see Notes), optional):  (Default value = "golden")
 
-    Returns
-    -------
-    data : sklearn.datasets.base.Bunch
-        dictionary-like object. Keys of interest:
-        'X_prot': dictionary keyed on category. Each entry is a matrix of prototype word pairs (see Notes)
-        'X': dictionary keyed on category. Each entry is a matrix of question word pairs
-        'y': dictionary keyed on category. Each entry is a dictionary word pair -> score
-
-        'categories_names': dictionary keyed on category. Each entry is a human readable name of
-        category.
-        'categories_descriptions': dictionary keyed on category. Each entry is a human readable description of
-        category.
+    Returns:
+      sklearn.datasets.base.Bunch: dictionary-like object. Keys of interest:
+      'X_prot': dictionary keyed on category. Each entry is a matrix of prototype word pairs (see Notes)
+      'X': dictionary keyed on category. Each entry is a matrix of question word pairs
+      'y': dictionary keyed on category. Each entry is a dictionary word pair -> score
+      'categories_names': dictionary keyed on category. Each entry is a human readable name of
+      category.
+      'categories_descriptions': dictionary keyed on category. Each entry is a human readable description of
+      category.
 
     References
     ----------
     DA Jurgens et al.,
     "Measuring degrees of relational similarity. In *SEM 2012: The First Joint Conference on Lexical
     and Computational Semantics", 2012
-
     Notes
     -----
     Dataset used in competition was scored as in golden scoring (which_scoring) parameter, however
     organiser have release improved labels afterwards (platinium scoring)
-
+    
     The task is, given two pairs of words, A:B and C:D, determine the degree to which the semantic relations between
     A and B are similar to those between C and D. Unlike the more familiar task of semantic relation identification,
     which assigns each word pair to a discrete semantic relation class, this task recognizes the continuous range of

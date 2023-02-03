@@ -111,7 +111,7 @@ def fetch_battig():
     Included in this dataset are all words from the Battig and Montague (1969) norms listed with
     freq > 1.
 
-    This is not the same dataset as 'battig' in Baroni et al. "Don’t count, predict! A systematic comparison of
+    This is not the same dataset as 'battig' in Baroni et al. "Don't count, predict! A systematic comparison of
     context-counting vs. context-predicting semantic vectors"
     """
     data = _get_cluster_assignments(dataset_name="EN-BATTIG",
